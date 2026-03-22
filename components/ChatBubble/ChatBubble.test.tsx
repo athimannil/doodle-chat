@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 import ChatBubble from './ChatBubble';
 
+import { formatTimestamp } from '@/lib/utils';
 import type { Message } from '@/lib/types';
 
 const baseMessage: Message = {
@@ -14,16 +15,20 @@ const baseMessage: Message = {
 
 describe('ChatBubble', () => {
   it('renders author, message, and timestamp for others', () => {
-    render(<ChatBubble {...baseMessage} />);
+    render(<ChatBubble {...baseMessage} isCurrentUser={false} />);
     expect(screen.getByText(baseMessage.author)).toBeInTheDocument();
     expect(screen.getByText(baseMessage.message)).toBeInTheDocument();
-    expect(screen.getByText(baseMessage.createdAt)).toBeInTheDocument();
+    expect(
+      screen.getByText(formatTimestamp(baseMessage.createdAt))
+    ).toBeInTheDocument();
   });
 
   it('does not render author for self ("Me")', () => {
-    render(<ChatBubble {...baseMessage} author="Me" />);
+    render(<ChatBubble {...baseMessage} author="Me" isCurrentUser={true} />);
     expect(screen.queryByText('Me')).not.toBeInTheDocument();
     expect(screen.getByText(baseMessage.message)).toBeInTheDocument();
-    expect(screen.getByText(baseMessage.createdAt)).toBeInTheDocument();
+    expect(
+      screen.getByText(formatTimestamp(baseMessage.createdAt))
+    ).toBeInTheDocument();
   });
 });

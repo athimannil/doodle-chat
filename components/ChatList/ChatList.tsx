@@ -6,9 +6,11 @@ import ChatBubble from '../ChatBubble/ChatBubble';
 import styles from './ChatList.module.css';
 
 import { useMessages } from '@/hooks/useMessages';
+import { useUser } from '@/context/userContext';
 
 const ChatList = () => {
   const { data: messages, isLoading, isError } = useMessages();
+  const { username } = useUser();
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const prevCountRef = useRef(0);
@@ -66,7 +68,11 @@ const ChatList = () => {
       aria-live="polite"
     >
       {messages?.map((msg) => (
-        <ChatBubble key={msg._id} {...msg} />
+        <ChatBubble
+          key={msg._id}
+          isCurrentUser={msg.author === username}
+          {...msg}
+        />
       ))}
       <div ref={bottomRef} />
     </div>

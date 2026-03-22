@@ -5,6 +5,8 @@ import ChatList from './ChatList';
 
 import { useMessages } from '@/hooks/useMessages';
 import type { Message } from '@/lib/types';
+import { UserProvider } from '@/context/userContext';
+import { formatTimestamp } from '@/lib/utils';
 
 vi.mock('@/hooks/useMessages');
 
@@ -47,7 +49,12 @@ describe('ChatList', () => {
       isError: false,
     });
 
-    render(<ChatList />);
+    localStorage.setItem('doodle-chat-username', 'Me');
+    render(
+      <UserProvider>
+        <ChatList />
+      </UserProvider>
+    );
     const chatList = screen.getByRole('log', { name: /chat messages/i });
     const bubbles = within(chatList).getAllByRole('article');
     expect(bubbles.length).toBe(mockChats.length);
@@ -59,7 +66,9 @@ describe('ChatList', () => {
         expect(within(bubble).queryByText('Me')).toBeNull();
       }
       expect(within(bubble).getByText(msg.message)).toBeInTheDocument();
-      expect(within(bubble).getByText(msg.createdAt)).toBeInTheDocument();
+      expect(
+        within(bubble).getByText(formatTimestamp(msg.createdAt))
+      ).toBeInTheDocument();
     });
   });
 
@@ -70,7 +79,11 @@ describe('ChatList', () => {
       isError: false,
     });
 
-    render(<ChatList />);
+    render(
+      <UserProvider>
+        <ChatList />
+      </UserProvider>
+    );
     expect(screen.getByText(/loading messages/i)).toBeInTheDocument();
   });
 
@@ -81,7 +94,11 @@ describe('ChatList', () => {
       isError: true,
     });
 
-    render(<ChatList />);
+    render(
+      <UserProvider>
+        <ChatList />
+      </UserProvider>
+    );
     expect(screen.getByText(/failed to load messages/i)).toBeInTheDocument();
   });
 
@@ -92,7 +109,11 @@ describe('ChatList', () => {
       isError: false,
     });
 
-    render(<ChatList />);
+    render(
+      <UserProvider>
+        <ChatList />
+      </UserProvider>
+    );
     expect(screen.getByText(/no messages yet/i)).toBeInTheDocument();
   });
 });

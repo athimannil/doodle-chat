@@ -1,5 +1,5 @@
 'use client';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useCallback } from 'react';
 
 import styles from './ChatInput.module.css';
 
@@ -10,12 +10,15 @@ const NameInput = () => {
   const [name, setName] = useState('');
   const { setUsername } = useUser();
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const trimmed = name.trim();
-    if (!trimmed) return;
-    setUsername(trimmed);
-  };
+  const handleSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      const trimmed = name.trim();
+      if (!trimmed) return;
+      setUsername(trimmed);
+    },
+    [name, setUsername]
+  );
 
   return (
     <div className={styles.chatInput}>
@@ -52,24 +55,23 @@ const NameInput = () => {
 
 const MessageInput = () => {
   const [message, setMessage] = useState('');
-  const handleChange = (e: FormEvent<HTMLInputElement>) => {
-    setMessage(e.currentTarget.value);
-  };
+  const { username } = useUser();
   const { mutate: sendMessage, isError, isLoading } = useSendMessage();
+  const handleChange = useCallback((e: FormEvent<HTMLInputElement>) => {
+    setMessage(e.currentTarget.value);
+  }, []);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (message.trim() === '') return;
-
-    sendMessage(
-      { message, author: 'Me' },
-      {
-        onSettled: () => {
-          setMessage('');
-        },
-      }
-    );
-  };
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (message.trim() === '') return;
+      sendMessage(
+        { message, author: username },
+        { onSettled: () => setMessage('') }
+      );
+    },
+    [message, sendMessage, username]
+  );
 
   return (
     <div className={styles.chatInput}>

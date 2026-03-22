@@ -1,6 +1,7 @@
 .bubble {
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
   row-gap: var(--space-s);
   background-color: var(--bubble-bg);
   border: var(--border-width-thin) solid var(--bubble-border-color);
@@ -8,13 +9,13 @@
   box-shadow: 0 0 2px 0 var(--bubble-shadow-color);
   padding: var(--space);
   line-height: 1;
-  max-width: 70%;
+  max-width: 56%;
   word-break: break-word;
 }
 
 @media (min-width: 480px) {
   .bubble {
-    max-width: 80%;
+    max-width: 73.5%;
   }
 }
 

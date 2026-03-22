@@ -4,6 +4,8 @@ import {
   ReactNode,
   useContext,
   useSyncExternalStore,
+  useCallback,
+  useMemo,
 } from 'react';
 
 const STORAGE_KEY = 'doodle-chat-username';
@@ -38,19 +40,18 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     getServerSnapshot
   );
 
-  const setUsername = (name: string) => {
+  const setUsername = useCallback((name: string) => {
     const trimmed = name.trim();
     localStorage.setItem(STORAGE_KEY, trimmed);
     window.dispatchEvent(
       new StorageEvent('storage', { key: STORAGE_KEY, newValue: trimmed })
     );
-  };
+  }, []);
 
-  const value = {
-    username,
-    setUsername,
-    isLoggedIn: username.length > 0,
-  };
+  const value = useMemo(
+    () => ({ username, setUsername, isLoggedIn: username.length > 0 }),
+    [username, setUsername]
+  );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

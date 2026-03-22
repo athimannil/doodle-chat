@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 import { getMessages, sendMessage } from '@/lib/api';
 import { Message } from '@/lib/types';
@@ -19,6 +20,7 @@ const useMessages = () => {
   const query = useQuery({
     queryKey: messageKeys.all,
     queryFn: () => getMessages({}),
+    refetchOnReconnect: true,
   });
 
   useQuery({
@@ -44,13 +46,20 @@ const useMessages = () => {
     },
     refetchInterval: POLL_INTERVAL,
     enabled: !query.isLoading,
+    refetchOnReconnect: true,
+    onError: () => {
+      queryClient.invalidateQueries({ queryKey: messageKeys.all });
+    },
   });
 
-  return {
-    data: query.data,
-    isLoading: query.isLoading,
-    isError: query.isError,
-  };
+  return useMemo(
+    () => ({
+      data: query.data,
+      isLoading: query.isLoading,
+      isError: query.isError,
+    }),
+    [query.data, query.isLoading, query.isError]
+  );
 };
 
 const useSendMessage = () => {
