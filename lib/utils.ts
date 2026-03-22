@@ -14,4 +14,10 @@ const formatTimestamp = (timestamp: string): string => {
     .replace(',', '');
 };
 
-export { formatTimestamp };
+const decodeHtml = (html: string): string => {
+  return (
+    new DOMParser().parseFromString(html, 'text/html').body.textContent || ''
+  );
+};
+
+export { formatTimestamp, decodeHtml };

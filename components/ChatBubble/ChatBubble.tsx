@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import styles from './ChatBubble.module.css';
 
-import { formatTimestamp } from '@/lib/utils';
+import { formatTimestamp, decodeHtml } from '@/lib/utils';
 import { Message } from '@/lib/types';
 
 interface ChatBubbleProps extends Message {
@@ -21,7 +21,7 @@ const ChatBubble = memo(function ChatBubble({
       aria-label={`Message from ${author}`}
     >
       {!isCurrentUser && <p className={styles.author}>{author}</p>}
-      <p className={styles.message}>{message}</p>
+      <p className={styles.message}>{decodeHtml(message)}</p>
       <time className={styles.timestamp} dateTime={createdAt}>
         {formatTimestamp(createdAt)}
       </time>
