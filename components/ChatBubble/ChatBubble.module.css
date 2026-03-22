@@ -1,0 +1,42 @@
+.bubble {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space-s);
+  background-color: var(--bubble-bg);
+  border: var(--border-width-thin) solid var(--bubble-border-color);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 2px 0 var(--bubble-shadow-color);
+  padding: var(--space);
+  line-height: 1;
+  max-width: 70%;
+  word-break: break-word;
+}
+
+@media (min-width: 480px) {
+  .bubble {
+    max-width: 80%;
+  }
+}
+
+.bubbleSelf {
+  align-self: flex-end;
+  background-color: var(--bubble-bg-current);
+}
+
+.bubbleSelf .author {
+  text-align: right;
+}
+
+.bubbleSelf .timestamp {
+  align-self: flex-end;
+}
+
+.author,
+.timestamp {
+  color: var(--bubble-info-color);
+  font-size: var(--font-size-xs);
+}
+
+.message {
+  font-size: var(--font-size-sm);
+}

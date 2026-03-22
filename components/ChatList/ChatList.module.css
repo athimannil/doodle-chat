@@ -1,0 +1,9 @@
+.chatList {
+  flex: 1;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space);
+  overflow-y: auto;
+  background: transparent url('/chat-bg.png') center/contain repeat;
+}
