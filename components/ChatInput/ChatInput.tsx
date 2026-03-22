@@ -4,8 +4,53 @@ import { FormEvent, useState } from 'react';
 import styles from './ChatInput.module.css';
 
 import { useSendMessage } from '@/hooks/useMessages';
+import { useUser } from '@/context/userContext';
 
-const ChatInput = () => {
+const NameInput = () => {
+  const [name, setName] = useState('');
+  const { setUsername } = useUser();
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    setUsername(trimmed);
+  };
+
+  return (
+    <div className={styles.chatInput}>
+      <form
+        onSubmit={handleSubmit}
+        className={styles.form}
+        aria-label="Enter your name to join the chat"
+      >
+        <label htmlFor="name-input" className={styles.srOnly}>
+          Your name
+        </label>
+        <input
+          id="name-input"
+          className={styles.input}
+          type="text"
+          placeholder="Enter your name to join..."
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoComplete="name"
+          autoFocus
+        />
+        <button
+          className={styles.button}
+          type="submit"
+          disabled={!name.trim()}
+          aria-label="Join chat"
+        >
+          Join
+        </button>
+      </form>
+    </div>
+  );
+};
+
+const MessageInput = () => {
   const [message, setMessage] = useState('');
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
     setMessage(e.currentTarget.value);
@@ -61,6 +106,12 @@ const ChatInput = () => {
       )}
     </div>
   );
+};
+
+const ChatInput = () => {
+  const { username } = useUser();
+
+  return username ? <MessageInput /> : <NameInput />;
 };
 
 export default ChatInput;

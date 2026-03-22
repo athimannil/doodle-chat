@@ -1,11 +1,12 @@
-import ChatInput from '@/components/ChatInput';
+import Header from '@/components/Header';
 import ChatList from '@/components/ChatList';
+import ChatInput from '@/components/ChatInput';
 
 export default function Home() {
   return (
     <main className="app">
       <section className="chat-container">
-        <h1>Doodle Chat Coding Challenge</h1>
+        <Header />
         <ChatList />
         <ChatInput />
       </section>
