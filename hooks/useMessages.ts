@@ -46,7 +46,8 @@ const useMessages = () => {
     },
     refetchInterval: POLL_INTERVAL,
     enabled: !query.isLoading,
-    refetchOnReconnect: true,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   useEffect(() => {

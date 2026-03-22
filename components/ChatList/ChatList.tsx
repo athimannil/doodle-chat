@@ -15,18 +15,16 @@ const ChatList = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const prevCountRef = useRef(0);
 
+  const messageCount = messages?.length ?? 0;
+
   useEffect(() => {
-    if (
-      messages &&
-      messages.length > 0 &&
-      messages.length !== prevCountRef.current
-    ) {
+    if (messageCount > 0 && messageCount !== prevCountRef.current) {
       bottomRef.current?.scrollIntoView({
         behavior: prevCountRef.current === 0 ? 'instant' : 'smooth',
       });
-      prevCountRef.current = messages.length;
+      prevCountRef.current = messageCount;
     }
-  }, [messages]);
+  }, [messageCount]);
 
   if (isLoading) {
     return (

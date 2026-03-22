@@ -8,8 +8,8 @@ const AppProviders: FC<{ children: React.ReactNode }> = ({ children }) => {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 0,
-            refetchOnWindowFocus: true,
+            staleTime: 20000,
+            refetchOnWindowFocus: false,
             retry: 2,
           },
         },
