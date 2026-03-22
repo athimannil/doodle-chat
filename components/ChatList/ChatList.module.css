@@ -7,3 +7,11 @@
   overflow-y: auto;
   background: transparent url('/chat-bg.png') center/contain repeat;
 }
+
+.status {
+  text-align: center;
+  color: var(--bubble-info-color);
+  font-size: var(--font-size-sm);
+  padding: var(--space-2xl) var(--space);
+  margin: auto;
+}

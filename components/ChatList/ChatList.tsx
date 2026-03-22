@@ -4,27 +4,71 @@ import { useEffect, useRef } from 'react';
 import ChatBubble from '../ChatBubble/ChatBubble';
 
 import styles from './ChatList.module.css';
-import chats from './chats.json';
+
+import { useMessages } from '@/hooks/useMessages';
 
 const ChatList = () => {
+  const { data: messages, isLoading, isError } = useMessages();
+
   const bottomRef = useRef<HTMLDivElement>(null);
   const prevCountRef = useRef(0);
 
   useEffect(() => {
-    if (chats.length > 0 && chats.length !== prevCountRef.current) {
+    if (
+      messages &&
+      messages.length > 0 &&
+      messages.length !== prevCountRef.current
+    ) {
       bottomRef.current?.scrollIntoView({
         behavior: prevCountRef.current === 0 ? 'instant' : 'smooth',
       });
-      prevCountRef.current = chats.length;
+      prevCountRef.current = messages.length;
     }
-  }, []);
+  }, [messages]);
+
+  if (isLoading) {
+    return (
+      <div
+        className={styles.chatList}
+        role="status"
+        aria-label="Loading messages"
+      >
+        <p>Loading messages...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div
+        className={styles.chatList}
+        role="alert"
+        aria-label="Error loading messages"
+      >
+        <p>Failed to load messages. Please try again later.</p>
+      </div>
+    );
+  }
+
+  if (!messages || messages.length === 0) {
+    return (
+      <div className={styles.status} role="status" aria-label="No messages">
+        <p> No messages yet. Be the first to say hello!</p>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.chatList} role="log" aria-label="Chat messages">
-      {chats.map((msg, idx) => (
+    <div
+      className={styles.chatList}
+      role="log"
+      aria-label="Chat messages"
+      aria-live="polite"
+    >
+      {messages?.map((msg, idx) => (
         <div
           key={msg._id}
-          ref={idx === chats.length - 1 ? bottomRef : undefined}
+          ref={idx === messages.length - 1 ? bottomRef : undefined}
         >
           <ChatBubble {...msg} />
         </div>
