@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { getMessages, sendMessage } from '@/lib/api';
 import { Message } from '@/lib/types';
@@ -23,7 +23,7 @@ const useMessages = () => {
     refetchOnReconnect: true,
   });
 
-  useQuery({
+  const pollQuery = useQuery({
     queryKey: messageKeys.poll,
     queryFn: async () => {
       const cached = queryClient.getQueryData<Message[]>(messageKeys.all);
@@ -47,10 +47,13 @@ const useMessages = () => {
     refetchInterval: POLL_INTERVAL,
     enabled: !query.isLoading,
     refetchOnReconnect: true,
-    onError: () => {
-      queryClient.invalidateQueries({ queryKey: messageKeys.all });
-    },
   });
+
+  useEffect(() => {
+    if (pollQuery.isError) {
+      queryClient.invalidateQueries({ queryKey: messageKeys.all });
+    }
+  }, [pollQuery.isError, queryClient]);
 
   return useMemo(
     () => ({

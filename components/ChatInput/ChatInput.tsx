@@ -84,7 +84,7 @@ const MessageInput = () => {
           Message
         </label>
         <input
-          id="chat-input"
+          id="message-input"
           type="text"
           className={styles.input}
           placeholder="Type your message..."

@@ -16,7 +16,7 @@ A real-time chat application built as a frontend coding challenge for Doodle.
 - **Polling over WebSockets:** The API is REST-based, so polling with deduplication (`Set`-based merge) provides real-time feel without extra infrastructure.
 - **Two-step input flow:** Users enter their name first (persisted in localStorage), then see the message input. This avoids requiring a full auth system while providing identity.
 - **`useSyncExternalStore`:** Chosen over `useState` + `useEffect` for localStorage access to avoid hydration mismatches in Next.js SSR.
-- **Component memoization:** `MessageBubble` and `MessageList` are wrapped in `memo()` to prevent unnecessary re-renders during polling updates.
+- **Component memoization:** `ChatBubble` is wrapped in `React.memo()` to prevent unnecessary re-renders during polling updates.
 - **CSS Modules over CSS-in-JS:** Zero runtime cost, native CSS features, and good developer experience with TypeScript support.
 
 ## Getting Started
@@ -32,9 +32,9 @@ A real-time chat application built as a frontend coding challenge for Doodle.
 # Install dependencies
 npm install
 
-# Copy environment variables
-cp .env.example .env.local
-# Edit .env.local with your API URL and token
+# Create environment variables
+echo 'NEXT_PUBLIC_API_URL=http://localhost:3000' > .env.local
+echo 'NEXT_PUBLIC_API_TOKEN=super-secret-doodle-token' >> .env.local
 
 # Start the development server
 npm run dev
@@ -44,10 +44,11 @@ Open [http://localhost:3000](http://localhost:3000) to use the app.
 
 ### Environment Variables
 
-| Variable                | Description       | Default                 |
-| ----------------------- | ----------------- | ----------------------- |
-| `NEXT_PUBLIC_API_URL`   | Chat API base URL | `http://localhost:3000` |
-| `NEXT_PUBLIC_API_TOKEN` | API bearer token  | —                       |
+| Variable                       | Description           | Default                     |
+| ------------------------------ | --------------------- | --------------------------- |
+| `NEXT_PUBLIC_API_URL`          | Chat API base URL     | `http://localhost:3000`     |
+| `NEXT_PUBLIC_API_TOKEN`        | API bearer token      | `super-secret-doodle-token` |
+| `NEXT_PUBLIC_POLLING_INTERVAL` | Polling interval (ms) | `20000`                     |
 
 ## Available Scripts
 
@@ -71,17 +72,18 @@ app/                  # Next.js App Router
   globals.css         # Design tokens, reset, and layout styles
 components/
   Header/             # App header with title and user display
-  MessageBubble/      # Individual chat message with self/other styling
-  MessageInput/       # Two-step input: name prompt → message input
-  MessageList/        # Scrollable message feed with auto-scroll
+  ChatBubble/         # Individual chat message with self/other styling (memoized)
+  ChatInput/          # Two-step input: name prompt → message input
+  ChatList/           # Scrollable message feed with auto-scroll
+context/
+  userContext.tsx      # React Context for user identity management
 hooks/
   useMessages.ts      # React Query hooks for fetching and sending messages
 lib/
   api.ts              # HTTP client for the chat API
   types.ts            # TypeScript interfaces
   utils.ts            # Utility functions (timestamp formatting)
-  providers.tsx       # Composed app providers (QueryClient + UserContext)
-  UserContext.tsx      # React Context for user identity management
+  providers.tsx       # QueryClient provider
 ```
 
 ## Accessibility
