@@ -22,7 +22,7 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
   return response.json() as Promise<T>;
 };
 
-const getMessages = async (options?: {
+const getMessages = async (options: {
   after?: string;
   before?: string;
   limit?: number;

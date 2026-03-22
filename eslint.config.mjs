@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    'coverage/**',
   ]),
   {
     // removed explicit 'jsx-a11y' plugin to avoid "Cannot redefine plugin" error

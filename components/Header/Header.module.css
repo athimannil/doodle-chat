@@ -1,0 +1,17 @@
+.header {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-blue);
+  padding: var(--space) var(--space-lg);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  color: var(--color-white);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin: 0;
+}

@@ -1,0 +1,60 @@
+.chatInput {
+  background-color: var(--color-blue);
+  position: sticky;
+  bottom: 0;
+}
+
+.form {
+  display: flex;
+  padding-inline: var(--space-lg);
+  padding-block: var(--space-sm);
+  column-gap: var(--space-sm);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.input {
+  flex: 1;
+  padding: var(--space-sm);
+  border: var(--border-width-thick) solid var(--color-blue);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  transition: border-color 0.2s ease;
+}
+.input:focus {
+  outline: none;
+  border-color: #3578a3;
+  box-shadow: 0 0 0 2px rgba(66, 152, 208, 0.4);
+}
+
+.button {
+  padding: var(--space-sm) var(--space);
+  background-color: var(--button-bg);
+  color: var(--button-color);
+  border-width: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: var(--button-hover-bg);
+}
+
+.error {
+  color: #fdd;
+  font-size: var(--font-size-xs);
+  padding: var(--space-xs) var(--space-lg);
+  text-align: center;
+}

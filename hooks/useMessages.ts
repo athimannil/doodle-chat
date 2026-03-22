@@ -1,6 +1,6 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getMessages } from '@/lib/api';
+import { getMessages, sendMessage } from '@/lib/api';
 import { Message } from '@/lib/types';
 
 const POLL_INTERVAL = parseInt(
@@ -18,7 +18,7 @@ const useMessages = () => {
 
   const query = useQuery({
     queryKey: messageKeys.all,
-    queryFn: () => getMessages(),
+    queryFn: () => getMessages({}),
   });
 
   useQuery({
@@ -53,4 +53,24 @@ const useMessages = () => {
   };
 };
 
-export { useMessages };
+const useSendMessage = () => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: ({ message, author }: { message: string; author: string }) =>
+      sendMessage(message, author),
+    onSuccess: (newMessage: Message) => {
+      queryClient.setQueryData<Message[]>(messageKeys.all, (oldData) =>
+        oldData ? [...oldData, newMessage] : [newMessage]
+      );
+    },
+  });
+
+  return {
+    mutate: mutation.mutate,
+    isError: mutation.isError,
+    isLoading: mutation.isPending,
+  };
+};
+
+export { useMessages, useSendMessage };

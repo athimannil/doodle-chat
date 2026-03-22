@@ -38,7 +38,7 @@ describe('API', () => {
         json: async () => mockMessages,
       });
 
-      const result = await getMessages();
+      const result = await getMessages({});
 
       expect(result).toEqual(mockMessages);
       expect(mockFetch).toHaveBeenCalledOnce();
@@ -71,7 +71,7 @@ describe('API', () => {
         json: async () => [],
       });
 
-      await getMessages();
+      await getMessages({});
 
       const [url] = mockFetch.mock.calls[0];
       const urlObj = new URL(url.toString());
@@ -89,7 +89,7 @@ describe('API', () => {
         }),
       });
 
-      await expect(getMessages()).rejects.toThrow(
+      await expect(getMessages({})).rejects.toThrow(
         'Invalid token (code: AUTH_ERROR)'
       );
     });
@@ -103,7 +103,7 @@ describe('API', () => {
         },
       });
 
-      await expect(getMessages()).rejects.toThrow(
+      await expect(getMessages({})).rejects.toThrow(
         'Internal Server Error (code: unknown)'
       );
     });
@@ -114,7 +114,7 @@ describe('API', () => {
         json: async () => [],
       });
 
-      await getMessages();
+      await getMessages({});
 
       const [, options] = mockFetch.mock.calls[0];
       const headers = options?.headers;

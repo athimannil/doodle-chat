@@ -65,14 +65,10 @@ const ChatList = () => {
       aria-label="Chat messages"
       aria-live="polite"
     >
-      {messages?.map((msg, idx) => (
-        <div
-          key={msg._id}
-          ref={idx === messages.length - 1 ? bottomRef : undefined}
-        >
-          <ChatBubble {...msg} />
-        </div>
+      {messages?.map((msg) => (
+        <ChatBubble key={msg._id} {...msg} />
       ))}
+      <div ref={bottomRef} />
     </div>
   );
 };
