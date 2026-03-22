@@ -9,5 +9,5 @@ test('Page', () => {
     screen.getByRole('heading', {
       level: 1,
     })
-  ).toHaveTextContent('To get started, edit the page.tsx file.');
+  ).toHaveTextContent('Doodle Chat Coding Challenge');
 });

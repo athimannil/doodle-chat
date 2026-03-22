@@ -1,26 +1,125 @@
-@import 'tailwindcss';
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  height: 100%;
+  line-height: 1.5;
+}
+
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-blue: #4298d0;
+  --color-orange: #fc8771;
+
+  --color-bg: var(--color-white);
+  --color-foreground: #171717;
+
+  /* Spacing Scale */
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-s: 6px;
+  --space-sm: 8px;
+  --space: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Typography */
+  --font-family:
+    var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+
+  /* Borders */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  --border-width-thin: 1px;
+  --border-width-thick: 2px;
+
+  /* Layout */
+  --chat-max-width: 640px;
+  --header-height: 64px;
+  --chat-input-height: 48px;
+
+  /* Speech Bubble */
+  --bubble-bg: var(--color-white);
+  --bubble-bg-current: #fbf6c7;
+  --bubble-border-color: #d4dade;
+  --bubble-shadow-color: var(--bubble-border-color);
+  --bubble-info-color: #b3bcc3;
+
+  --color-surface: #e5e5e5;
+
+  --button-color: var(--color-white);
+  --button-bg: var(--color-orange);
+  --button-hover-bg: #f07a63;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-bg: #0a0a0a;
+    --color-foreground: #ededed;
+    --color-surface: #1a1a1a;
+
+    --bubble-bg: #1e1e2e;
+    --bubble-bg-current: #2d2b1e;
+    --bubble-border-color: #3a3a4a;
+    --bubble-shadow-color: #2a2a3a;
+    --bubble-info-color: #8a8a9a;
+
+    --button-bg: #e06e5a;
+    --button-hover-bg: #c75d4a;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-foreground);
+  font-family: var(--font-family);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface);
+  height: 100vh;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: var(--chat-max-width);
+  background-color: var(--color-bg);
+  width: 100%;
+  margin: 0 auto;
+  flex: 1;
 }
